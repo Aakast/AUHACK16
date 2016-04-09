@@ -78,12 +78,28 @@ public class KeyHandler implements KeyLogger.IKeyloggerCallback {
     @Override
     public void onSentenceTyped(String sentence) {
         //System.out.println("Sentence: " + sentence);
+        boolean containsSwearWords = false;
+        sentence = sentence.trim().toLowerCase();
+        if (sentence.isEmpty()) {
+            return;
+        }
+        for (String word : wordList) {
+            if (sentence.contains(word)) {
+                containsSwearWords = true;
+                break;
+            }
+        }
+
+        if (!containsSwearWords) {
+            AchievementHandler.getInstance().completedSentence();
+        }
     }
 
     @Override
     public void onWordRemoved(String word) {
         System.out.println("Word removed: " + word);
         if (wordList.contains(word)) {
+            AchievementHandler.getInstance().removedSwearWord();
             UIHandler.getInstance().showKarma(severity);
         }
     }

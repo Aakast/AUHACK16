@@ -13,13 +13,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Thomas on 09-04-2016.
  */
 public class UIHandler {
     private JDialog popup;
-    private JFrame staticFrame;
+    private JFrame staticFrame, extraFrame1, extraFrame2, extraFrame3;
     private HashMap<KeyHandler.Severity, JLabel> severityList;
     private HashMap<KeyHandler.Severity, KeyHandler> handlerList;
     private ImagePanel imagePanel;
@@ -48,6 +51,16 @@ public class UIHandler {
             @Override
             public void mouseClicked(MouseEvent e) {
                 popup.setVisible(false);
+
+                if (extraFrame1 != null) {
+                    extraFrame1.setVisible(false);
+                }
+                if (extraFrame2 != null) {
+                    extraFrame2.setVisible(false);
+                }
+                if (extraFrame3 != null) {
+                    extraFrame3.setVisible(false);
+                }
             }
 
             @Override
@@ -74,12 +87,64 @@ public class UIHandler {
 
         popup.setContentPane(mainPanel);
 
-        popup.setSize(600, 600);
+        //popup.setSize(this.imagePanel.IMG_WIDTH, this.imagePanel.IMG_HEIGHT);
         popup.setAlwaysOnTop(true);
         popup.setUndecorated(true);
-        popup.setLocationRelativeTo(null);
         popup.setBackground(new Color(1, 1, 1, 0.0f));
+        //Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        //int x = (int) ((dimension.getWidth() - popup.getWidth()) / 2);
+        popup.setLocationRelativeTo(null);
         popup.setVisible(true);
+
+        try {
+            configureExtraFrame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void configureExtraFrame() throws MalformedURLException {
+        for (int i = 0; i < 3; i++) {
+            JFrame f = null;
+            String imgName = "";
+            float xOffSet = 0;
+            int yOffset = 0;
+            if (i == 0) {
+                f = extraFrame1 = new JFrame();
+                imgName = "lips_1";
+                yOffset = 50;
+                xOffSet = 0.26f;
+            } else if (i == 1) {
+                f = extraFrame2 = new JFrame();
+                imgName = "eyes_1";
+                xOffSet = 0.47f;
+                yOffset = 0;
+            } else if (i == 2) {
+                f = extraFrame3 = new JFrame();
+                imgName = "fist_1";
+                xOffSet = 0.67f;
+                yOffset = 50;
+            }
+
+            long time = System.currentTimeMillis();
+            imgName = "explosion";
+            String urlStr = String.format("http://www.thomasheine.dk/words/%s.gif?%s", imgName, time);
+
+            URL url = new URL(urlStr);
+            Icon icon = new ImageIcon(url);
+            JLabel label = new JLabel(icon);
+
+            f.getContentPane().add(label);
+            f.setUndecorated(true);
+            f.setBackground(new Color(0, 0, 0, 0.0f));
+            f.setLocation(0, 0);
+            f.setAlwaysOnTop(true);
+
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            f.pack();
+            int x = (int) (dimension.width * xOffSet);
+            f.setLocation(x, yOffset);
+        }
     }
 
     public void configureStaticFrame(ArrayList<KeyHandler> handlers) {
@@ -129,11 +194,16 @@ public class UIHandler {
             InputStream input = new URL(String.format("http://www.thomasheine.dk/words/pop-up_%s_%s.png", severity.name(), index)).openStream();
             BufferedImage image = ImageIO.read(input);
             this.imagePanel.setImage(image);
+            popup.setSize(this.imagePanel.IMG_WIDTH, this.imagePanel.IMG_HEIGHT);
+            popup.setLocationRelativeTo(null);
 
             this.popup.setVisible(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        extraFrame1.setVisible(true);
+        extraFrame3.setVisible(true);
+        //extraFrame2.setVisible(true);
     }
 
     public void updateWordCount(KeyHandler.Severity severity, int totalWordCount) {
@@ -203,7 +273,8 @@ public class UIHandler {
         System.out.println("Show karma: " + severity);
 
         try {
-            String urlStr = String.format("http://www.thomasheine.dk/words/karma_%s.gif", severity.name());
+            long time = System.currentTimeMillis();
+            String urlStr = String.format("http://www.thomasheine.dk/words/karma_%s.gif?%s", severity.name(), time);
 
             URL url = new URL(urlStr);
             Icon icon = new ImageIcon(url);
@@ -221,11 +292,72 @@ public class UIHandler {
             int x = (int) ((dimension.getWidth() - f.getWidth()) / 2);
             f.setLocation(x, 0);
 
-            /*ScheduledExecutorService s = Executors.newSingleThreadScheduledExecutor();
+            ScheduledExecutorService s = Executors.newSingleThreadScheduledExecutor();
             s.schedule(() -> {
                 f.setVisible(false);
                 f.dispose();
-            }, 4000, TimeUnit.MILLISECONDS);*/
+            }, 10000, TimeUnit.MILLISECONDS);
+
+            f.setVisible(true);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAchievement(String name) {
+        System.out.println("Show achievement: " + name);
+
+        try {
+            long time = System.currentTimeMillis();
+            String urlStr = String.format("http://www.thomasheine.dk/words/%s.gif?%s", name, time);
+
+            URL url = new URL(urlStr);
+            Icon icon = new ImageIcon(url);
+            JLabel label = new JLabel(icon);
+
+            final JFrame f = new JFrame("Animation");
+            f.getContentPane().add(label);
+            f.setUndecorated(true);
+            f.setBackground(new Color(0, 0, 0, 0.0f));
+            f.setLocationRelativeTo(null);
+            f.setAlwaysOnTop(true);
+            f.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    f.setVisible(false);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+
+            //Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            //f.pack();
+            //int x = (int) ((dimension.getWidth() - f.getWidth()) / 2);
+            //f.setLocation(x, 0);
+
+            ScheduledExecutorService s = Executors.newSingleThreadScheduledExecutor();
+            s.schedule(() -> {
+                f.setVisible(false);
+                f.dispose();
+            }, 10000, TimeUnit.MILLISECONDS);
 
             f.setVisible(true);
         } catch (MalformedURLException e) {
