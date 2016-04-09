@@ -29,6 +29,7 @@ public class ImagePanel extends JComponent {
         this.IMG_WIDTH = (int) (image.getWidth() * 0.80);
         this.IMG_HEIGHT = (int) (image.getHeight() * 0.80);
         this.image = this.image.getScaledInstance(IMG_WIDTH, IMG_HEIGHT, Image.SCALE_DEFAULT);
+
         this.revalidate();
         this.repaint();
     }

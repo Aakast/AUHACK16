@@ -27,6 +27,7 @@ public class UIHandler {
     private HashMap<KeyHandler.Severity, KeyHandler> handlerList;
     private ImagePanel imagePanel;
     private JLabel labelTotal;
+    private JLabel swearIndex;
     private int minutes = 1;
     public JLabel timer;
 
@@ -171,14 +172,21 @@ public class UIHandler {
         labelTotal = new JLabel(getTotalText());
         mainPanel.add(labelTotal);
 
+        swearIndex = new JLabel(getSwearText());
+        mainPanel.add(swearIndex);
+
         staticFrame.setContentPane(mainPanel);
         staticFrame.setAlwaysOnTop(true);
         staticFrame.setUndecorated(true);
         staticFrame.setLocation(0, 0);
-        staticFrame.setSize(325, 90);
+        staticFrame.setSize(325, 100);
         staticFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         staticFrame.setBackground(new Color(1, 1, 1, 0.8f));
         staticFrame.setVisible(true);
+    }
+
+    private String getSwearText() {
+        return "Swear index: 0";
     }
 
     public void showUIMessage(KeyHandler.Severity severity, int hitCount) {
@@ -235,6 +243,7 @@ public class UIHandler {
 
     private void updateTotal() {
         labelTotal.setText(getTotalText());
+        swearIndex.setText(getSwearText());
     }
 
     public void showUIWarning(KeyHandler.Severity severity) {
@@ -319,7 +328,6 @@ public class UIHandler {
             f.getContentPane().add(label);
             f.setUndecorated(true);
             f.setBackground(new Color(0, 0, 0, 0.0f));
-            f.setLocationRelativeTo(null);
             f.setAlwaysOnTop(true);
             f.addMouseListener(new MouseListener() {
                 @Override
@@ -348,10 +356,11 @@ public class UIHandler {
                 }
             });
 
-            //Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-            //f.pack();
-            //int x = (int) ((dimension.getWidth() - f.getWidth()) / 2);
-            //f.setLocation(x, 0);
+            Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+            f.pack();
+            int x = (int) ((dimension.getWidth() - f.getWidth()) / 2);
+            int y = (int) ((dimension.getHeight() - f.getHeight()) / 2);
+            f.setLocation(x, y);
 
             ScheduledExecutorService s = Executors.newSingleThreadScheduledExecutor();
             s.schedule(() -> {

@@ -25,7 +25,7 @@ public class KeyHandler implements KeyLogger.IKeyloggerCallback {
 
     private int warningAlert;
     private int warningCount;
-    private List<String> wordList;
+    public List<String> wordList;
     public int totalWordCount;
     private int numberOfSwearWords;
     private Severity severity;
@@ -78,21 +78,6 @@ public class KeyHandler implements KeyLogger.IKeyloggerCallback {
     @Override
     public void onSentenceTyped(String sentence) {
         //System.out.println("Sentence: " + sentence);
-        boolean containsSwearWords = false;
-        sentence = sentence.trim().toLowerCase();
-        if (sentence.isEmpty()) {
-            return;
-        }
-        for (String word : wordList) {
-            if (sentence.contains(word)) {
-                containsSwearWords = true;
-                break;
-            }
-        }
-
-        if (!containsSwearWords) {
-            AchievementHandler.getInstance().completedSentence();
-        }
     }
 
     @Override

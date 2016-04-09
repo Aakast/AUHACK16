@@ -86,8 +86,26 @@ public class Main {
 
         @Override
         public void onSentenceTyped(String sentence) {
+
+            boolean containsSwearWords = false;
+            sentence = sentence.trim().toLowerCase();
+            if (sentence.isEmpty()) {
+                return;
+            }
             for (KeyHandler kh : handlers) {
-                kh.onSentenceTyped(sentence);
+                for (String word : kh.wordList) {
+                    if (sentence.contains(word)) {
+                        containsSwearWords = true;
+                        break;
+                    }
+                }
+                if (containsSwearWords) {
+                    break;
+                }
+            }
+
+            if (!containsSwearWords) {
+                AchievementHandler.getInstance().completedSentence();
             }
         }
 
