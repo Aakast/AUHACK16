@@ -90,5 +90,12 @@ public class Main {
                 kh.onSentenceTyped(sentence);
             }
         }
+
+        @Override
+        public void onWordRemoved(String word) {
+            for (KeyHandler kh : handlers) {
+                kh.onWordRemoved(word);
+            }
+        }
     }
 }

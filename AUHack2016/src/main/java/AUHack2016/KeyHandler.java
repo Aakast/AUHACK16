@@ -80,6 +80,14 @@ public class KeyHandler implements KeyLogger.IKeyloggerCallback {
         //System.out.println("Sentence: " + sentence);
     }
 
+    @Override
+    public void onWordRemoved(String word) {
+        System.out.println("Word removed: " + word);
+        if (wordList.contains(word)) {
+            UIHandler.getInstance().showKarma(severity);
+        }
+    }
+
     public Severity getSeverity() {
         return this.severity;
     }
