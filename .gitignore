@@ -21,6 +21,7 @@
 .idea/gradle.xml
 .idea/libraries
 /gradle
+AUHack2016/out/artifacts
 
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml

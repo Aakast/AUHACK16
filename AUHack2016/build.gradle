@@ -2,6 +2,7 @@ group 'AUHack2016'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 
@@ -12,4 +13,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'com.1stleg:jnativehook:2.0.2'
+    compile 'com.googlecode.soundlibs:jlayer:1.0.1-1'
 }
