@@ -135,6 +135,7 @@ public class UIHandler {
             Icon icon = new ImageIcon(url);
             JLabel label = new JLabel(icon);
 
+            f.setType(Window.Type.UTILITY);
             f.getContentPane().add(label);
             f.setUndecorated(true);
             f.setBackground(new Color(0, 0, 0, 0.0f));
@@ -150,6 +151,7 @@ public class UIHandler {
 
     public void configureStaticFrame(ArrayList<KeyHandler> handlers) {
         staticFrame = new JFrame("Statistics");
+        staticFrame.setType(Window.Type.UTILITY);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -290,6 +292,7 @@ public class UIHandler {
             JLabel label = new JLabel(icon);
 
             final JFrame f = new JFrame("Animation");
+            f.setType(Window.Type.UTILITY);
             f.getContentPane().add(label);
             f.setUndecorated(true);
             f.setBackground(new Color(0, 0, 0, 0.0f));
@@ -325,6 +328,7 @@ public class UIHandler {
             JLabel label = new JLabel(icon);
 
             final JFrame f = new JFrame("Animation");
+            f.setType(Window.Type.UTILITY);
             f.getContentPane().add(label);
             f.setUndecorated(true);
             f.setBackground(new Color(0, 0, 0, 0.0f));
