@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -123,7 +124,7 @@ public class UIHandler {
             } else if (i == 2) {
                 f = extraFrame3 = new JFrame();
                 imgName = "fist_1";
-                xOffSet = 0.67f;
+                xOffSet = 0.70f;
                 yOffset = 50;
             }
 
@@ -188,7 +189,15 @@ public class UIHandler {
     }
 
     private String getSwearText() {
-        return "Swear index: 0";
+        Swearity sv = new Swearity();
+        ArrayList<Double> wordCOunt = new ArrayList<>();
+        for (KeyHandler handler : Main.handlers) {
+            wordCOunt.add((double) handler.getTotalWordCount());
+        }
+        double swearIndex = new Swearity().magicNumber(sv.createVector(wordCOunt));
+        DecimalFormat df = new DecimalFormat("#0.00");
+
+        return "Swear index: " + df.format(swearIndex);
     }
 
     public void showUIMessage(KeyHandler.Severity severity, int hitCount) {

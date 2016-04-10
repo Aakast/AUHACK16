@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class Main {
     private static KeyHandlerManager manager;
-    private static ArrayList<KeyHandler> handlers;
+    public static ArrayList<KeyHandler> handlers;
 
     public static void main(String[] args) throws IOException {
         manager = new KeyHandlerManager();
